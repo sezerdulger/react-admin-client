@@ -20,11 +20,10 @@ import {
     useGetOne,
     useDataProvider
 } from 'react-admin';
-import { useForm } from 'react-final-form'
 
-import { useFormState } from 'react-final-form';
 
 import { useMediaQuery } from '@material-ui/core';
+import AuthUserRef from "./create/fields/authorizedPersonId";
 
 export const TechSupportList = (props) => {
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
@@ -76,35 +75,7 @@ export const TechSupportEdit = props => (
     </Edit>
 );
 
-const AuthUserRef = props => {
-    const form = useForm();
-    const dataProvider = useDataProvider();
 
-    return (
-        <ReferenceInput {...props} label="Authorized Person Id" source="authorizedPersonId" reference="user"
-                onChange={(e) => {
-                    // const { values } = useFormState();
-                    e.preventDefault()
-                   
-                    // values.authorizedPerson=values.authorizedPersonId
-                    console.log(e)
-                    dataProvider.getList('user',{id: e.target.value, filter:{}, sort:{field:"", order: ""},pagination: {page:1 , perPage: 1}}).then(({data}) => {
-                        console.log(data)
-
-                        form.change("authorizedPerson", data[0].firstname + " " + data[0].lastname)
-                    })
-
-                    
-                    return true
-            }}
-                >
-                <SelectInput 
-                {...props}
-                 optionText={record=> record.firstname + " " + record.lastname}
-                     />
-            </ReferenceInput>
-    )
-}
 
 export const TechSupportCreate = props => {
     const controllerProps = useCreateController(props);

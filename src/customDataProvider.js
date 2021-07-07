@@ -41,14 +41,26 @@ export default {
         })),
 
     getMany: (resource, params) => {
-        const url = `${apiUrl}/${resource}/${params.ids}`;
-        return httpClient(url).then(({ json }) => ({ data: json }));
+        console.log(params)
+        console.log("get many")
+        const q = {
+            page: 0,
+            size: 100,
+            "query": {}
+        }
+
+        return httpClient(`${apiUrl}/${resource}/q`, {
+            method: 'POST',
+            body: JSON.stringify(q),
+        }).then(({ json }) => ({
+            data: json.content.map(d => {d.id=d.uid; return d}),
+            total: json.totalElements
+        }))
     },
 
     getManyReference: (resource, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
-     
 
         const q = {
             page: page - 1,
@@ -99,8 +111,8 @@ export default {
         const query = {
             filter: JSON.stringify({ id: params.ids}),
         };
-        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+        return httpClient(`${apiUrl}/${resource}/${params.ids}`, {
             method: 'DELETE',
-        }).then(({ json }) => ({ data: json }));
+        }).then(({  }) => ({ data: [] }));
     }
 };
