@@ -24,6 +24,7 @@ import {
 
 import { useMediaQuery } from '@material-ui/core';
 import AuthUserRef from "./create/fields/authorizedPersonId";
+import TechSupportExt from "../ext/techsupportext"
 
 export const TechSupportList = (props) => {
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));

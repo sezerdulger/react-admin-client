@@ -24,6 +24,7 @@ import {
 import { useForm } from 'react-final-form'
 
 import { useFormState } from 'react-final-form';
+import Emitter from "../../../emitter";
 
 const AuthUserRef = props => {
     const form = useForm();
@@ -37,14 +38,9 @@ const AuthUserRef = props => {
                     e.preventDefault()
                    
                     // values.authorizedPerson=values.authorizedPersonId
-                    console.log(e)
-                    dataProvider.getOne('user', {id: e.target.value}).then(({data}) => {
-                        console.log(data)
-
-                        form.change("authorizedPerson", data.firstname + " " + data.lastname)
-                    })
-
                     
+                    Emitter.emit("techsupport_authorizedPersonId_changed", {event: e, form: form, dataProvider: dataProvider})
+
                     return true
             }}
                 >
